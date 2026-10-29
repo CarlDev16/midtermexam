@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import './App.css'
+import './App.css';
 
 function CalcDisplay({ dispValue }) {
   return (
@@ -18,122 +18,72 @@ function CalcButton({ buttonLabel, buttonClassName = 'Button', onCLick }) {
 }
 
 function App() {
-  const [disp, setDisp] = useState(0);
-  const [operand1, setOperand1] = useState(null);
-  const [operand2, setOperand2] = useState(null);
-  const [operation, setOperation] = useState(null);
+  const INITIAL_DISPLAY = "10 Things That Require Zero Talent";
+  const [disp, setDisp] = useState(INITIAL_DISPLAY);
 
-  const nameButtonClickHandler = (e) => {
-  e.preventDefault();
-  setDisp("Carl Justine Mangune");
+  // Mapping of numbers 0-9 to their respective "Zero Talent" items
+  const talentMap = {
+    '1': 'Being On Time',
+    '2': 'Making An Effort',
+    '3': 'Being High Energy',
+    '4': 'Having A Positive Attitude',
+    '5': 'Being Passionate',
+    '6': 'Using Good Body Language',
+    '7': 'Being Coachable',
+    '8': 'Doing A Little Extra',
+    '9': 'Being Prepared',
+    '0': 'Having A Strong Work Ethic'
+  };
 
-  }
-
-  const buttonClickHandler = (e) => {
-    e.preventDefault();
-    const value = e.target.innerHTML;
-    setDisp(value);
-  }
-
-  const clearButtonClickHandler = (e) => {
-    e.preventDefault();
-    setDisp(0);
-    setOperand1(null);
-    setOperand2(null);
-    setOperation(null);
-  }
-
-  const equalButtonClickHandler = (e) => {
-    e.preventDefault();
-    const value = e.target.innerHTML;
-
-    if (operation === "+") {
-      setDisp(parseInt(operand1) + parseInt(operand2));
+  const keyClickHandler = (key) => {
+    if (key === 'CLR') {
+      setDisp(INITIAL_DISPLAY);
+    } else if (key === 'NAME') {
+      setDisp("CARL JUSTINE MANGUNE");
+    } else if (key === 'SUBJ') {
+      setDisp("C-PCIT9");
+    } else if (talentMap[key]) {
+      setDisp(talentMap[key]);
     }
-    else if (operation === "-") {
-      setDisp(parseInt(operand1) - parseInt(operand2));
-    }
-    else if (operation === "x") {
-      setDisp(parseInt(operand1) * parseInt(operand2));
-    }
-    else if (operation === "÷") {
-      setDisp(parseInt(operand1) / parseInt(operand2));
-    }
-  }
-
-  const operationButtonClickHandler = (e) => {
-    e.preventDefault();
-    const value = e.target.innerHTML;
-    setOperation(value);
-    setDisp(value);
-  }
-
-  const numbuttonClickHandler = (e) => {
-    e.preventDefault();
-    const value = e.target.innerHTML;
-
-    //alert(value + "|" + operand1 + "|" + operand2 + "|" + operation);
-    console.log(value + "|" + operand1 + "|" + operand2 + "|" + operation);
-    if (operation === null) {
-
-      if (operand1 === null) {
-        setDisp(value);
-        setOperand1(value);
-      } else {
-        setDisp(operand1 + value);
-        setOperand1(operand1 + value);
-      }
-    }
-
-    else {
-      if (operand2 === null) {
-        setDisp(value);
-        setOperand2(value);
-      } else {
-        setDisp(operand2 + value);
-        setOperand2(operand2 + value);
-      }
-    }
-  }
+  };
 
   return (
     <div className='App'>
-       <h1 className='CalculatorTitle'> Calculator of Carl Justine Mangune - WMD3A
-  </h1>
+      {/* Requirement A: Full Name and Section at top header */}
+      <div className='Header'>
+        CARL JUSTINE MANGUNE - WMD3A
+      </div>
 
-  <div className='Calculator'>
+      <div className='Calculator'>
+        {/* Requirement B: Initial Display on start */}
         <CalcDisplay dispValue={disp} />
+
         <div className='Keypad'>
-          <CalcButton buttonLabel={7} onCLick={numbuttonClickHandler} />
-          <CalcButton buttonLabel={8} onCLick={numbuttonClickHandler} />
-          <CalcButton buttonLabel={9} onCLick={numbuttonClickHandler} />
-          <CalcButton buttonLabel={"÷"} onCLick={operationButtonClickHandler} />
+          {/* Keypad arrangement matching requirement C */}
+          <CalcButton buttonLabel={7} onCLick={() => keyClickHandler('7')} />
+          <CalcButton buttonLabel={8} onCLick={() => keyClickHandler('8')} />
+          <CalcButton buttonLabel={9} onCLick={() => keyClickHandler('9')} />
+          <CalcButton buttonLabel={"CLR"} buttonClassName="ClrButton" onCLick={() => keyClickHandler('CLR')} />
 
-          <CalcButton buttonLabel={4} onCLick={numbuttonClickHandler} />
-          <CalcButton buttonLabel={5} onCLick={numbuttonClickHandler} />
-          <CalcButton buttonLabel={6} onCLick={numbuttonClickHandler} />
-          <CalcButton buttonLabel={"x"} onCLick={operationButtonClickHandler} />
+          <CalcButton buttonLabel={4} onCLick={() => keyClickHandler('4')} />
+          <CalcButton buttonLabel={5} onCLick={() => keyClickHandler('5')} />
+          <CalcButton buttonLabel={6} onCLick={() => keyClickHandler('6')} />
+          <CalcButton buttonLabel={"SUBJ"} buttonClassName="SubjButton" onCLick={() => keyClickHandler('SUBJ')} />
 
-          <CalcButton buttonLabel={1} onCLick={numbuttonClickHandler} />
-          <CalcButton buttonLabel={2} onCLick={numbuttonClickHandler} />
-          <CalcButton buttonLabel={3} onCLick={numbuttonClickHandler} />
-          <CalcButton buttonLabel={'-'} onCLick={operationButtonClickHandler} />
-
-          <CalcButton buttonLabel={"CLR"} buttonClassName="ClrButton" onCLick={clearButtonClickHandler} />
-          <CalcButton buttonLabel={0} onCLick={numbuttonClickHandler} />
-          <CalcButton buttonLabel={"="} buttonClassName="EqualButton" onCLick={equalButtonClickHandler} />
-          <CalcButton buttonLabel={"+"} onCLick={operationButtonClickHandler} />
+          <CalcButton buttonLabel={1} onCLick={() => keyClickHandler('1')} />
+          <CalcButton buttonLabel={2} onCLick={() => keyClickHandler('2')} />
+          <CalcButton buttonLabel={3} onCLick={() => keyClickHandler('3')} />
+          <CalcButton buttonLabel={0} onCLick={() => keyClickHandler('0')} />
 
           <CalcButton
             buttonLabel={"NAME"}
             buttonClassName="NameButton"
-            onCLick={nameButtonClickHandler}
+            onCLick={() => keyClickHandler('NAME')}
           />
-
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
